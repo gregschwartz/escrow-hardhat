@@ -38,7 +38,7 @@ function createHTML(buttonId, arbiter, beneficiary, value) {
           <div> ${beneficiary} </div>
         </li>
         <li>
-          <div> Value </div>
+          <div> Ether </div>
           <div> ${value} </div>
         </li>
         <div class="button" id="${buttonId}">
