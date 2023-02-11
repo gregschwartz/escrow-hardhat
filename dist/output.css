@@ -559,6 +559,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+body, #root {
+  width: 100%;
+}
+
 body {
   background-color: #000;
   display: flex;

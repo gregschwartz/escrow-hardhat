@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import deploy from './deploy';
 import Escrow from './Escrow';
+import server from "./server";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -67,6 +68,14 @@ function App() {
       setBalance(ethers.utils.formatEther(bal));
       setBalanceWhole(Math.floor(ethers.utils.formatEther(bal)));
       setBalanceDecimal((ethers.utils.formatEther(bal) %1).toString().substring(2,8));
+
+      //load contracts from backend
+      const {
+        "data": existingContracts
+      } = await server.get(`/contracts`);
+      if(existingContracts && existingContracts.length > 0) {
+        setEscrows(existingContracts);
+      }
     }
 
     getAccounts();
@@ -98,6 +107,23 @@ function App() {
     };
 
     setEscrows([...escrows, escrow]);
+
+    //call localhost:3042 with info
+    var payload = {
+      address: escrowContract.address,
+      arbiter: arbiter,
+      beneficiary: beneficiary,
+      value: value.toString()
+    };
+    try {
+      const {
+        data: { saved, numStored },
+      } = await server.post(`save`, payload);
+      console.log("saved", saved, "numStored", numStored);
+    } catch (ex) {
+      alert(ex.response.data.message);
+    }
+
   }
 
   return (
