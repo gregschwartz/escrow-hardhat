@@ -10,10 +10,38 @@ export async function approve(escrowContract, signer) {
   await approveTxn.wait();
 }
 
+function validateAddress(event) {
+  const field = event.target;
+  var good = true;
+  try {
+    ethers.utils.getAddress(field.value);
+  } catch (x) {
+    good = false;
+  }
+
+  if (good) {
+    field.classList.remove("error");
+  } else {
+    field.classList.add("error");
+  }
+  console.log('classlist', field.classList);
+}
+
 function setButtonEnabled() {
-  const enabled = (document.getElementById('beneficiary').value.length===42 && document.getElementById('arbiter').value.length===42 && document.getElementById('etherValue').value > 0);
+  var enabled = true;
+  try {
+    ethers.utils.getAddress(document.getElementById('beneficiary').value);
+    ethers.utils.getAddress(document.getElementById('arbiter').value);
+  } catch (x) {
+    enabled = false;
+  }
+
+  //valid value of ETH
+  enabled = enabled && document.getElementById('etherValue').value > 0;
+
   document.getElementById('deploy').disabled = !enabled;
   document.getElementById('deploy').value = (enabled ? "Deploy" : "Missing Info");
+  document.getElementById('deploy').className = (enabled ? "animate-bounce" : "");
 }
 setTimeout(setButtonEnabled, 300);
 setTimeout(setButtonEnabled, 500);
@@ -74,45 +102,49 @@ function App() {
 
   return (
     <>
-      <div className='balance w-1/3 text-center'>
-        <h3>Your ETH Balance</h3>
-        <abbr className='balance' title={balance}>{balanceWhole}<span className='text-slate-400'>.{balanceDecimal}</span ></abbr>
+      <div className='container px-4 flex flex-row'>
+        <div className='balance w-1/6 text-center'>
+          <h3>Your ETH Balance</h3>
+          <abbr className='balance' title={balance}>{balanceWhole}<span className='text-slate-400'>.{balanceDecimal}</span ></abbr>
+        </div>
+        <div className="contract w-5/6">
+          <h3> New Escrow </h3>
+          <label>
+            Arbiter Address
+            <input type="text" className='' id="arbiter" onChange={setButtonEnabled} onBlur={validateAddress} placeholder="0xDEAD..." />
+          </label>
+
+          <label>
+            Beneficiary Address
+            <input type="text" className='' id="beneficiary" onChange={setButtonEnabled} onBlur={validateAddress} placeholder="0xBEEF..." />
+          </label>
+
+          <label>
+            Ether
+            <input type="text" id="etherValue" onChange={setButtonEnabled} placeholder="Amount to send" />
+          </label>
+
+          <input 
+            type="button" 
+            id="deploy"
+            onClick={(e) => {
+              e.preventDefault();
+              newContract();
+            }}
+            value='Deploy'
+          />
+        </div>
       </div>
-      <div className="contract w-1/3">
-        <h3> New Escrow </h3>
-        <label>
-          Arbiter Address
-          <input type="text" id="arbiter" onChange={setButtonEnabled} placeholder="0xDEAD..." />
-        </label>
 
-        <label>
-          Beneficiary Address
-          <input type="text" id="beneficiary" onChange={setButtonEnabled} placeholder="0xBEEF..." />
-        </label>
+      <div className='container px-4 flex flex-row'>
+        <div className="existing-contracts w-full	">
+          <h3> Existing Escrows </h3>
 
-        <label>
-          Ether
-          <input type="text" id="etherValue" onChange={setButtonEnabled} placeholder="Amount to send" />
-        </label>
-
-        <input 
-          type="button" 
-          id="deploy"
-          onClick={(e) => {
-            e.preventDefault();
-            newContract();
-          }}
-          value='Deploy'
-        />
-      </div>
-
-      <div className="existing-contracts w-1/3">
-        <h3> Existing Escrows </h3>
-
-        <div id="container">
-          {escrows.map((escrow) => {
-            return <Escrow key={escrow.address} {...escrow} />;
-          })}
+          <div id="container">
+            {escrows.map((escrow) => {
+              return <Escrow key={escrow.address} {...escrow} />;
+            })}
+          </div>
         </div>
       </div>
     </>

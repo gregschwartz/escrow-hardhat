@@ -18,10 +18,7 @@ if (!window.ethereum) {
       <link href="/dist/output.css" rel="stylesheet" />
       <a href="/crow4.png" target="_blank"><img src="/crow4-small.png" alt="esCrow" className='mx-auto content-center place-items-center' /></a>
       <h1 className='text-8xl	font-mono text-center'>esCROW</h1>
-      <h2 className='font-mono text-center'>Stolen funds? Nevermore!</h2>
-      <div className='container px-4 flex flex-row'>
-        <App />
-      </div>
+      <App />
     </React.StrictMode>
   );
 }

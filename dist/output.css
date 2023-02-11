@@ -599,6 +599,7 @@ label {
 input[type="text"] {
   padding: 6px;
   font-size: 18px;
+  color: #000;
 }
 
 input[type="button"] {
@@ -622,7 +623,7 @@ input[type="button"]:disabled {
 .existing-contract ul {
   padding: 10px;
   margin: 20px;
-  background-color: #eee;
+  background-color: #555;
 }
 
 .existing-contract ul > li {
