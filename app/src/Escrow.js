@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+
 export default function Escrow({
   address,
   arbiter,
@@ -10,27 +12,27 @@ export default function Escrow({
       <ul className="fields">
         <li>
           <div> Arbiter </div>
-          <div> {arbiter} </div>
+          <div> <abbr title={arbiter}>{arbiter.substring(0,7)}...</abbr> </div>
         </li>
         <li>
           <div> Beneficiary </div>
-          <div> {beneficiary} </div>
+          <div> <abbr title={beneficiary}>{beneficiary.substring(0,7)}...</abbr> </div>
         </li>
         <li>
           <div> Value </div>
-          <div> {value} </div>
+          <div> {ethers.utils.formatEther(value)} </div>
         </li>
-        <div
-          className="button"
-          id={address}
+        <input 
+          type="button" 
+          id="deploy"
           onClick={(e) => {
             e.preventDefault();
-
+            
             handleApprove();
           }}
-        >
-          Approve
-        </div>
+          value='Approve'
+        />
+        
       </ul>
     </div>
   );

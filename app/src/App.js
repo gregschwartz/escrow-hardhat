@@ -47,21 +47,9 @@ function App() {
   async function newContract() {
     const beneficiary = document.getElementById('beneficiary').value;
     const arbiter = document.getElementById('arbiter').value;
-    const rawValue = document.getElementById('etherValue').value;
-
-    var err = "";
-    if (beneficiary.length===0) { err += "Please provide beneficiary.<br />" }
-    if (arbiter.length===0) { err += "Please provide arbiter.<br />" }
-    if (rawValue.length===0) { err += "Please provide value of ETH to send.<br />" }
-
-    const value = ethers.BigNumber.from(document.getElementById('etherValue').value);
-
-    if (err !== "") {
-      document.getElementById('error').innerHTML = err;
-      return;
-    }
-
-    const escrowContract = await deploy(signer, arbiter, value, value);
+    const value = ethers.utils.parseEther(document.getElementById('etherValue').value);
+    console.log("deploy:",signer, arbiter, value);
+    const escrowContract = await deploy(signer, arbiter, beneficiary, value);
 
 
     const escrow = {
@@ -106,8 +94,6 @@ function App() {
           Ether
           <input type="text" id="etherValue" onChange={setButtonEnabled} placeholder="Amount to send" />
         </label>
-
-        <label id="error"></label>
 
         <input 
           type="button" 
