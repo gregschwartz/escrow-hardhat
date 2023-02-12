@@ -3,14 +3,14 @@ pragma solidity 0.8.17;
 
 contract Escrow {
 	address public arbiter;
-	address public beneficiary;
+	address[] public beneficiaries;
 	address[] public depositors;
 
 	bool public isApproved;
 
-	constructor(address _arbiter, address _beneficiary) payable {
+	constructor(address _arbiter, address[] memory _beneficiaries) payable {
 		arbiter = _arbiter;
-		beneficiary = _beneficiary;
+		beneficiaries = _beneficiaries;
 		depositors.push(msg.sender);
 	}
 
@@ -24,8 +24,12 @@ contract Escrow {
 	function approve() external {
 		require(msg.sender == arbiter);
 		uint balance = address(this).balance;
-		(bool sent, ) = payable(beneficiary).call{value: balance}("");
- 		require(sent, "Failed to send Ether");
+		uint amount = balance / beneficiaries.length;
+
+		for (uint i=0; i<beneficiaries.length; i++){
+			(bool sent, ) = payable(beneficiaries[i]).call{value: amount}("");
+			require(sent, "Failed to send Ether");
+		}
 		emit Approved(balance);
 		isApproved = true;
 	}
