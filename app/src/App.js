@@ -103,7 +103,7 @@ function App() {
 
       setBalance(ethers.utils.formatEther(bal));
       setBalanceWhole(Math.floor(ethers.utils.formatEther(bal)));
-      setBalanceDecimal((ethers.utils.formatEther(bal) %1).toString().substring(2,8));
+      setBalanceDecimal((ethers.utils.formatEther(bal) %1).toString().substring(2,6));
 
       //load contracts from backend
       const {
@@ -191,7 +191,7 @@ function App() {
       <div className='container px-4 flex flex-row'>
         <div className='balance w-1/6 text-center'>
           <h3>Your ETH Balance</h3>
-          <abbr className='balance' title={balance}>{balanceWhole}<span className='text-slate-400'>.{balanceDecimal}</span ></abbr>
+          <abbr title={balance}>{balanceWhole}<span className='text-slate-400'>.{balanceDecimal}</span ></abbr>
         </div>
         <div className="contract w-5/6">
           <h3> New Escrow </h3>
