@@ -36,7 +36,7 @@ Run `npx hardhat test` to execute the unit tests on the contract.
 
 ## Deploy to Goerli
 
-It is deployed to [https://goerli.etherscan.io/address/0x790194945d0d9f4d1f5943D06c7cdbB38236424e](Goerli address 0xcaFAa9C9662f2a7EaeceD891C039317035286540).
+It is deployed to [Goerli address 0xcaFAa9C9662f2a7EaeceD891C039317035286540](https://goerli.etherscan.io/address/0x790194945d0d9f4d1f5943D06c7cdbB38236424e).
 
 But in case I need it later, here's my notes on how I did it:
 
