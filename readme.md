@@ -24,6 +24,10 @@ There are three top-level folders:
 3. In another terminal: `cd app; npm install; npm start`
 4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## Testing the Contract
+
+Run `npx hardhat test` to execute the unit tests on the contract.
+
 ## Deploy to Goerli
 
 It is deployed to [https://goerli.etherscan.io/address/0x790194945d0d9f4d1f5943D06c7cdbB38236424e](Goerli address 0xcaFAa9C9662f2a7EaeceD891C039317035286540).
