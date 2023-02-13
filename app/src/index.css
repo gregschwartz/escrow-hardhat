@@ -91,13 +91,3 @@ input[type="button"]:disabled {
 .existing-contract ul > li > :first-child {
   font-weight: bold;
 }
-
-.existing-contract .complete {
-  color: #5aa75a;
-  text-align: center;
-}
-
-.existing-contract .cancelled {
-  color: #b00;
-  text-align: center;
-}
