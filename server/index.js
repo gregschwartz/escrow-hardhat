@@ -13,26 +13,49 @@ app.use(express.json());
 const storage = [];
 
 app.get("/contracts", (req, res) => {
-  console.log("Got contracts from storage");
+  console.log("Got ", storage.length," contracts from storage", storage);
   res.send( storage );
 });
 
 app.post("/save", (req, res) => {
   const { address,
+    depositor,
     arbiter,
-    beneficiary,
-    value } = req.body;
-
-  storage.push({
+    beneficiaries,
+    value,
+    status
+  } = req.body;
+  
+  const data = {
     address: address,
+    depositor: depositor,
     arbiter: arbiter,
-    beneficiary: beneficiary,
-    value: value 
-  });
+    beneficiaries: beneficiaries,
+    value: value, 
+    status: status
+  };
 
-  console.log("Stored a contract");
+  storage.push(data);
+  console.log("Stored", data);
+
   res.send({ saved: true, numStored: storage.length });
 });
+
+app.post("/update", (req, res) => {
+  const { address, status } = req.body;
+
+  var updated = false;
+  for(var i=0; i<storage.length; i++) {
+    if(storage[i].address === address) {
+      storage[i].status = status;
+      updated = true;
+      console.log("Updated", address, "with", status);
+    }
+  }
+  
+  res.send({ updated: updated, numStored: storage.length });
+});
+  
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);

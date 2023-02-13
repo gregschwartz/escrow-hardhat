@@ -4,19 +4,15 @@ pragma solidity 0.8.17;
 contract Escrow {
 	address public arbiter;
 	address[] public beneficiaries;
-	address[] public depositors;
+	address public depositor;
 
-	bool public isApproved;
+	enum Status { Ready, Approved, Cancelled }
+	Status public status;
 
 	constructor(address _arbiter, address[] memory _beneficiaries) payable {
 		arbiter = _arbiter;
 		beneficiaries = _beneficiaries;
-		depositors.push(msg.sender);
-	}
-
-	//allow multiple depositors
-	function deposit() public payable {
-		depositors.push(msg.sender);
+		depositor = msg.sender;
 	}
 
 	event Approved(uint);
@@ -31,6 +27,20 @@ contract Escrow {
 			require(sent, "Failed to send Ether");
 		}
 		emit Approved(balance);
-		isApproved = true;
+		status = Status.Approved;
 	}
+
+	event Cancelled(uint);
+
+	function cancel() external {
+		require(msg.sender == arbiter);
+		uint balance = address(this).balance;
+
+		(bool sent, ) = payable(depositor).call{value: balance}("");
+		require(sent, "Failed to send Ether");
+
+		emit Cancelled(balance);
+		status = Status.Cancelled;
+	}
+
 }

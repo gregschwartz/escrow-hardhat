@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 
-
 body, #root {
   width: 100%;
 }
@@ -12,7 +11,6 @@ body {
   background-color: #000;
   display: flex;
   font-family: 'Muli', sans-serif;
-
 }
 
 .balance, .contract, .existing-contracts {
@@ -44,6 +42,10 @@ label {
   text-transform: uppercase;
   color: #aaa;
   margin: 20px;
+}
+
+label em {
+  display: contents;
 }
 
 input[type="text"] {
@@ -92,5 +94,10 @@ input[type="button"]:disabled {
 
 .existing-contract .complete {
   color: #5aa75a;
+  text-align: center;
+}
+
+.existing-contract .cancelled {
+  color: #b00;
   text-align: center;
 }

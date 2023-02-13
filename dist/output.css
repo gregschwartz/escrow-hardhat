@@ -600,6 +600,10 @@ label {
   margin: 20px;
 }
 
+label em {
+  display: contents;
+}
+
 input[type="text"] {
   padding: 6px;
   font-size: 18px;
@@ -646,5 +650,10 @@ input[type="button"]:disabled {
 
 .existing-contract .complete {
   color: #5aa75a;
+  text-align: center;
+}
+
+.existing-contract .cancelled {
+  color: #b00;
   text-align: center;
 }
