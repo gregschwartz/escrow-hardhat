@@ -23,3 +23,13 @@ There are three top-level folders:
 2. In another terminal: `cd server; npm i; node index`
 3. In another terminal: `cd app; npm install; npm start`
 4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+## Deploy to Goerli
+
+It is deployed to [https://goerli.etherscan.io/address/0x790194945d0d9f4d1f5943D06c7cdbB38236424e](Goerli address 0xcaFAa9C9662f2a7EaeceD891C039317035286540).
+
+But in case I need it later, here's my notes on how I did it:
+
+1. `touch .env`
+2. Put two things into .env: `TEST_URL` and `TEST_PRIVATE_KEY`
+3. `npx hardhat run scripts/deploy.js --network goerli`
