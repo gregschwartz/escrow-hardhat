@@ -27,6 +27,11 @@ describe('Escrow', function () {
     expect(balance).to.eq(deposit);
   });
 
+  it('fails if not funded initially', async function () {
+    const Escrow = await ethers.getContractFactory('Escrow');
+    await expect(Escrow.deploy(arbiter.getAddress(), [beneficiary.getAddress()])).to.be.reverted;
+  });
+
   describe('attempted approval from address other than the arbiter', () => {
     it('should revert', async () => {
       await expect(contract.connect(beneficiary).approve()).to.be.reverted;
